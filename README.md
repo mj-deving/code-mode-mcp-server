@@ -142,6 +142,11 @@ MCP Client → stdio → code-mode-mcp-server
                         └── isolated-vm sandbox
 ```
 
+## Related
+
+- **[n8n-nodes-utcp-codemode](https://github.com/mj-deving/n8n-nodes-utcp-codemode)** — n8n community node (same engine, for n8n workflows)
+- **[code-mode-core](https://www.npmjs.com/package/code-mode-core)** — Platform-agnostic SDK powering both packages
+
 ## License
 
 MPL-2.0
