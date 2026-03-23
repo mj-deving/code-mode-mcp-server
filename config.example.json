@@ -1,0 +1,20 @@
+{
+  "toolSources": [
+    {
+      "name": "fs",
+      "call_template_type": "mcp",
+      "config": {
+        "mcpServers": {
+          "filesystem": {
+            "transport": "stdio",
+            "command": "node",
+            "args": ["/path/to/server-filesystem/dist/index.js", "/allowed/directory"]
+          }
+        }
+      }
+    }
+  ],
+  "timeout": 30000,
+  "memoryLimit": 128,
+  "enableTrace": false
+}
