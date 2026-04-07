@@ -77,9 +77,10 @@ export function discoverConfig(): string | undefined {
     path.join(os.homedir(), '.config', 'code-mode-tools', 'config.json'),
   ];
   for (const candidate of candidates) {
-    if (fs.existsSync(candidate)) {
-      return candidate;
-    }
+    try {
+      const stat = fs.statSync(candidate);
+      if (stat.isFile()) return candidate;
+    } catch { /* skip */ }
   }
   return undefined;
 }
@@ -108,6 +109,10 @@ export function parseArgs(argv: string[]): ServerConfig {
       case '--trace':
         traceOverride = true;
         break;
+      default:
+        if (argv[i].startsWith('--')) {
+          process.stderr.write(`Warning: unknown flag ${argv[i]}\n`);
+        }
     }
   }
 

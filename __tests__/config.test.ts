@@ -1,7 +1,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import * as os from 'os';
-import { loadConfig, parseArgs } from '../src/config';
+import { loadConfig, parseArgs, discoverConfig } from '../src/config';
 
 describe('config', () => {
   let tmpDir: string;
@@ -70,6 +70,27 @@ describe('config', () => {
     });
   });
 
+  describe('discoverConfig', () => {
+    test('skips directories that match candidate names', () => {
+      // Create a directory named tools.json in tmpDir
+      const dirPath = path.join(tmpDir, 'tools.json');
+      fs.mkdirSync(dirPath);
+
+      // discoverConfig looks at CWD first, but this test validates the
+      // statSync + isFile guard by testing loadConfig behavior:
+      // a directory named tools.json should not be returned as a config file
+      const originalCwd = process.cwd();
+      process.chdir(tmpDir);
+      try {
+        const result = discoverConfig();
+        // Should not return the directory path
+        expect(result).not.toBe(dirPath);
+      } finally {
+        process.chdir(originalCwd);
+      }
+    });
+  });
+
   describe('parseArgs', () => {
     test('--timeout overrides config timeout value', () => {
       const configPath = writeConfig('base.json', {
@@ -105,6 +126,24 @@ describe('config', () => {
       const config = parseArgs(['--timeout', '5000']);
       expect(config.timeout).toBe(5000);
       expect(config.toolSources).toBeDefined();
+    });
+
+    test('warns on unknown flags', () => {
+      const stderrChunks: string[] = [];
+      const originalWrite = process.stderr.write;
+      process.stderr.write = ((chunk: string) => {
+        stderrChunks.push(chunk);
+        return true;
+      }) as any;
+
+      try {
+        // tools.json exists in CWD, so this will succeed but warn
+        parseArgs(['--bogus-flag']);
+        const output = stderrChunks.join('');
+        expect(output).toContain('Warning: unknown flag --bogus-flag');
+      } finally {
+        process.stderr.write = originalWrite;
+      }
     });
   });
 });
