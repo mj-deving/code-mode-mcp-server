@@ -1,16 +1,23 @@
 {
   "name": "code-mode-tools",
   "version": "0.2.0",
-  "description": "MCP server for code-mode — execute TypeScript code chains with pre-configured tools in an isolated sandbox",
+  "description": "Execute TypeScript code chains in an isolated sandbox — CLI + MCP server for any AI agent or MCP client",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "bin": {
     "code-mode-tools": "dist/index.js"
   },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE",
+    "config.example.json"
+  ],
   "scripts": {
     "build": "tsc",
     "test": "jest",
-    "lint": "tsc --noEmit"
+    "lint": "tsc --noEmit",
+    "prepublishOnly": "npm run build"
   },
   "engines": {
     "node": ">=22"
@@ -19,7 +26,7 @@
   "author": "mj-deving",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/mj-deving/code-mode-mcp-server.git"
+    "url": "git+https://github.com/mj-deving/code-mode-tools.git"
   },
   "keywords": [
     "mcp",
