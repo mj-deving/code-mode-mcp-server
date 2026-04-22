@@ -1,5 +1,7 @@
 # code-mode-tools
 
+![TypeScript](https://img.shields.io/badge/-TypeScript-3178C6?style=flat-square) ![MCP](https://img.shields.io/badge/-MCP-8B5CF6?style=flat-square) ![CLI](https://img.shields.io/badge/-CLI-333333?style=flat-square)
+
 MCP server that exposes [code-mode](https://github.com/mj-deving/n8n-nodes-utcp-codemode) sandbox execution as tools for any MCP-compatible client.
 
 LLMs write TypeScript code that chains tool calls in an isolated sandbox — achieving **96% token savings** vs sequential tool calling.
